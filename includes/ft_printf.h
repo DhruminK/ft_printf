@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:30:04 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/18 17:11:24 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/21 16:23:23 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 ** Functions to find Conversion and Flags
 */
 char		*ft_int_conv(char ch, int flag, va_list ap);
+char		*ft_float_conv(int flag, va_list ap);
 char		*ft_find_conv(char **str, va_list ap);
 
 /*

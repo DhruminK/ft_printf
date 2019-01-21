@@ -6,7 +6,7 @@
 #    By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/15 14:25:44 by dkhatri           #+#    #+#              #
-#    Updated: 2019/01/18 17:54:40 by dkhatri          ###   ########.fr        #
+#    Updated: 2019/01/21 16:44:33 by dkhatri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ ADDITIONAL = ft_memalloc.c ft_memdel.c ft_strnew.c ft_strdel.c ft_strclr.c \
 			 ft_striter.c ft_striteri.c ft_strmap.c ft_strmapi.c ft_strequ.c \
 			 ft_strnequ.c ft_strsub.c ft_strjoin.c ft_strtrim.c ft_strsplit.c \
 			 ft_strarrdel.c ft_strarrdup.c ft_strndup.c \
-			 ft_strarrnew.c ft_strcnt.c ft_strchrjoin.c
+			 ft_strarrnew.c ft_strcnt.c
 
 DISPLAY = ft_putstr.c ft_putstr_fd.c ft_putendl.c ft_putendl_fd.c ft_putnbr.c \
 		  ft_putnbr_fd.c ft_putchar.c ft_putchar_fd.c
@@ -39,7 +39,7 @@ BONUS = ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c \
 
 SRCDIR = ./src/
 
-CONV = ft_conversions.c ft_int_conv.c
+CONV = ft_conversions.c ft_int_conv.c ft_float_conv.c
 
 HELPER = ft_helper.c ft_itoa.c ft_uitoa_base.c
 
@@ -67,7 +67,7 @@ $(NAME): $(SRCO)
 	ranlib $(NAME)
 
 test: all
-	gcc -o printf $(SRCO) main.c -lftprintf -L.
+	gcc -o printf  main.c -lftprintf -L.
 
 clean:
 	/bin/rm -f $(SRCO)
