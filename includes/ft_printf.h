@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:30:04 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/21 16:23:23 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/22 16:40:16 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 /*
 ** Functions to find Conversion and Flags
 */
+char		*ft_find_int_flag(char *str, va_list ap);
 char		*ft_int_conv(char ch, int flag, va_list ap);
 char		*ft_float_conv(int flag, va_list ap);
 char		*ft_find_conv(char **str, va_list ap);
@@ -38,4 +39,6 @@ int			ft_printf(const char *val, ...);
 ** Helper functions
 */
 void		ft_tolowercase(char *str);
+int			ft_findzero(char *str);
+char		*ft_apply_field_width(char *str, int field, char neg);
 #endif

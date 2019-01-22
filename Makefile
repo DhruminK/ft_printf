@@ -6,7 +6,7 @@
 #    By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/15 14:25:44 by dkhatri           #+#    #+#              #
-#    Updated: 2019/01/21 16:44:33 by dkhatri          ###   ########.fr        #
+#    Updated: 2019/01/22 16:38:42 by dkhatri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ BONUS = ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c \
 
 SRCDIR = ./src/
 
-CONV = ft_conversions.c ft_int_conv.c ft_float_conv.c
+CONV = ft_conversions.c ft_int_conv.c ft_float_conv.c ft_int_flags.c
 
 HELPER = ft_helper.c ft_itoa.c ft_uitoa_base.c
 
