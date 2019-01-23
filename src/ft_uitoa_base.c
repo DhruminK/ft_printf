@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:48:22 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/18 16:04:20 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/23 15:48:00 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void		ft_conv(char *str, unsigned long long num, int base, int len)
 
 	value = num;
 	bs = "0123456789ABCDEF";
-	if (num == 0 && !(str[len] = 0))
+	if (num == 0 && !(str[len] = '0'))
 		return ;
 	while (num != 0)
 	{
@@ -42,7 +42,7 @@ static void		ft_conv(char *str, unsigned long long num, int base, int len)
 	}
 }
 
-char		*ft_itoa_base(unsigned long long num, int base)
+char			*ft_itoa_base(unsigned long long num, int base)
 {
 	int		len;
 	char	*str;

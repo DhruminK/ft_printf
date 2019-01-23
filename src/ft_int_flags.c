@@ -6,13 +6,13 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 14:30:16 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/22 17:38:16 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/23 15:49:01 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-void			ft_space_plus_flag(char **str, char ch)
+void		ft_space_plus_flag(char **str, char ch)
 {
 	char	*s;
 
@@ -78,16 +78,18 @@ char		*ft_unsigned_int_flag(char *str, char *result, int field)
 	int		len;
 	char	neg;
 	char	*tmp;
+	int		iszero;
 
 	len = ft_strlen(str);
-	if (str[len - 1] != 'u' && (s = ft_strchr(str, '#')))
+	iszero = ft_strlen(result) == 1 && result[0] == '0';
+	if (str[len - 1] != 'u' && !iszero && (s = ft_strchr(str, '#')))
 		ft_hash_flag(&result, str[len - 1]);
 	if (field <= ft_strlen(result))
 		return (result);
 	if (!(neg = ft_strchr(str, '-') ? '-' : 0))
 		neg = ft_findzero(str) ? '0' : 0;
 	tmp = ft_apply_field_width(result, field, neg);
-	if (neg == '0' && s && (str[len - 1] == 'x' || \
+	if (!iszero && neg == '0' && s && (str[len - 1] == 'x' || \
 		str[len - 1] == 'X') && ((s = ft_strchr(tmp, 'x')) || \
 			(s = ft_strchr(tmp, 'X'))))
 	{
@@ -114,13 +116,14 @@ char		*ft_find_int_flag(char *str, va_list ap)
 			field = ft_atoi(str + i);
 	}
 	len = ft_strlen(str);
-	if (!(count = ft_strcnt(str, 'l')) || !(count = count > 2 ? 2 : count))
+	if (!(count = ft_strcnt(str, 'l')) || \
+			!(count = count > 2 ? 2 : count))
 		count = ft_strcnt(str, 'h') > 2 ? -2 : ft_strcnt(str, 'h') * -1;
 	res = ft_int_conv(str[len - 1], count, ap);
 	if (str[len - 1] == 'd' || str[len - 1] == 'i')
 		return (ft_signed_int_flag(str, res, field));
-	else if (str[len - 1] == 'o' || str[len - 1] == 'u' || str[len - 1] == 'x' || \
-			str[len - 1] == 'X')
+	else if (str[len - 1] == 'o' || str[len - 1] == 'u' || \
+			str[len - 1] == 'x' || str[len - 1] == 'X')
 		return (ft_unsigned_int_flag(str, res, field));
 	return (0);
 }

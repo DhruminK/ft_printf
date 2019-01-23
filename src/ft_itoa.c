@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:38:48 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/18 14:58:33 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/23 15:47:49 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void		ft_conv(char *str, long long num, int base, int len)
 	}
 }
 
-char	*ft_itoa(long long num)
+char			*ft_itoa(long long num)
 {
 	int		len;
 	char	*str;
