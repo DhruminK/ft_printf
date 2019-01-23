@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 15:08:50 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/23 15:47:33 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/23 17:42:39 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char			*ft_find_conv(char **str, va_list ap)
 	char	*s;
 	char	*end;
 	int		flag;
+	char	*tmp;
 
 	flag = 0;
 	end = ft_find_flags(*str, &flag);
@@ -58,5 +59,14 @@ char			*ft_find_conv(char **str, va_list ap)
 		return (0);
 	if (ft_isint(*end))
 		return (ft_find_int_flag(s, ap));
+	if (*end == 'f')
+		return (ft_find_float_flag(s, ap));
+	if (*end == 's' || ((*end == 'c' || *end == '%') && \
+				(tmp = ft_strnew(1)) && \
+				(*tmp = *end == 'c' ? (char)va_arg(ap, int) : '%')))
+		return (ft_flag_string(s, *end == 'c' || *end == '%' ? \
+					tmp : va_arg(ap, char*)));
+	if (*end == 'p')
+		return (ft_flag_pointer(s, va_arg(ap, void*)));
 	return (0);
 }

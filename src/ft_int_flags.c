@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 14:30:16 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/23 15:49:01 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/23 17:46:41 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		ft_space_plus_flag(char **str, char ch)
 	*str = s;
 }
 
-char		*ft_signed_int_flag(char *str, char *result, int field)
+static char		*ft_signed_int_flag(char *str, char *result, int field)
 {
 	char	*s;
 	char	neg;
@@ -52,7 +52,7 @@ char		*ft_signed_int_flag(char *str, char *result, int field)
 	return (tmp);
 }
 
-void		ft_hash_flag(char **str, char ch)
+static void		ft_hash_flag(char **str, char ch)
 {
 	char	*s;
 
@@ -72,7 +72,7 @@ void		ft_hash_flag(char **str, char ch)
 	*str = s;
 }
 
-char		*ft_unsigned_int_flag(char *str, char *result, int field)
+char			*ft_unsigned_int_flag(char *str, char *result, int field)
 {
 	char	*s;
 	int		len;
@@ -112,10 +112,10 @@ char		*ft_find_int_flag(char *str, va_list ap)
 	field = 0;
 	while (++i < len - 1)
 	{
-		if (ft_isdigit(str[i]) && (i == 0 || !ft_isdigit(str[i - 1])))
+		if (ft_isdigit(str[i]) && (i == 0 || \
+					(!ft_isdigit(str[i - 1]) && str[i - 1] != '.')))
 			field = ft_atoi(str + i);
 	}
-	len = ft_strlen(str);
 	if (!(count = ft_strcnt(str, 'l')) || \
 			!(count = count > 2 ? 2 : count))
 		count = ft_strcnt(str, 'h') > 2 ? -2 : ft_strcnt(str, 'h') * -1;

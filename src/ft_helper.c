@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:58:46 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/22 17:13:33 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/23 18:01:17 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int		ft_findzero(char *str)
 	len = ft_strlen(str);
 	i = -1;
 	while (str[++i])
-		if (str[i] == '0' && (i == 0 || !ft_isdigit(str[i - 1])))
+		if (str[i] == '0' && (i == 0 || \
+					(!ft_isdigit(str[i - 1]) && str[i - 1] != '.')))
 			return (1);
 	return (0);
 }

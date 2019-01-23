@@ -6,13 +6,13 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 16:17:49 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/21 17:31:03 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/23 16:42:19 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static void		ft_addback(char **str, char ch)
+void			ft_addback(char **str, char ch)
 {
 	char *tmp;
 	char *dup;
@@ -48,11 +48,11 @@ static char		*ft_float(long double num, int percision)
 	return (str);
 }
 
-char			*ft_float_conv(int flag, va_list ap)
+char			*ft_float_conv(int flag, int precision, va_list ap)
 {
 	if (!flag)
-		return (ft_float(va_arg(ap, double), 6));
+		return (ft_float(va_arg(ap, double), precision));
 	if (flag > 0)
-		return (ft_float(va_arg(ap, long double), 6));
+		return (ft_float(va_arg(ap, long double), precision));
 	return (0);
 }
