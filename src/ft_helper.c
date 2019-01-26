@@ -5,17 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 14:58:46 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/23 18:01:17 by dkhatri          ###   ########.fr       */
+/*   Created: 2019/01/26 16:38:27 by dkhatri           #+#    #+#             */
+/*   Updated: 2019/01/26 19:04:27 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-void	ft_tolowercase(char *str)
+void		ft_tolowercase(char *str)
 {
-	if (!str)
-		return ;
 	while (*str)
 	{
 		if (*str >= 'A' && *str <= 'Z')
@@ -24,35 +22,49 @@ void	ft_tolowercase(char *str)
 	}
 }
 
-int		ft_findzero(char *str)
+void		ft_apply_field_width(char **str, int field, char neg)
 {
 	int		len;
+	char	*s;
 	int		i;
+	char	*tmp;
 
-	len = ft_strlen(str);
-	i = -1;
-	while (str[++i])
-		if (str[i] == '0' && (i == 0 || \
-					(!ft_isdigit(str[i - 1]) && str[i - 1] != '.')))
-			return (1);
-	return (0);
+	len = ft_strlen(*str);
+	if (len >= field)
+		return ;
+	if (!(s = ft_strnew(field)) && !(i = -1))
+		return ;
+	ft_strcpy(neg == '-' ? s : (s + field - len), *str);
+	tmp = s + (neg == '-' ? len : 0);
+	while (++i < field - len)
+		tmp[i] = (neg == '0' ? '0' : ' ');
+	ft_strdel(str);
+	*str = s;
 }
 
-char	*ft_apply_field_width(char *str, int field, char neg)
+void		ft_apply_precision(char **str, int precision, int type)
 {
-	char	*res;
 	int		len;
+	char	*s;
 
-	if ((len = ft_strlen(str)) >= field)
-		return (str);
-	res = ft_strnew(field);
-	if (neg == '-')
-		ft_strcpy(res, str);
+	len = !type || !precision ? ft_strlen(*str) : \
+		ft_strlen(ft_strchr(*str, '.') + 1);
+	if (!precision || (len >= precision))
+		return ;
+	if (!type)
+	{
+		if (!(s = ft_strnew(precision)))
+			return ;
+		ft_strcpy(s + precision - len, *str);
+		ft_memset(s, '0', precision - len);
+	}
 	else
-		ft_strcpy(res + field - len, str);
-	ft_memset(res + (neg == '-' ? ft_strlen(str) : 0), \
-			!neg || neg == '-' ? ' ' : '0', \
-			field - len);
-	free(str);
-	return (res);
+	{
+		if (!(s = ft_strnew(ft_strlen(*str) - len + precision)))
+			return ;
+		ft_strcpy(s, *str);
+		ft_memset(s + len, '0', precision - len);
+	}
+	ft_strdel(str);
+	*str = s;
 }

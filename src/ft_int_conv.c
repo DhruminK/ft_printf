@@ -5,59 +5,86 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 16:55:47 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/23 15:42:08 by dkhatri          ###   ########.fr       */
+/*   Created: 2019/01/26 17:17:47 by dkhatri           #+#    #+#             */
+/*   Updated: 2019/01/26 18:58:34 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static char		*ft_call_func(va_list ap, int flag)
-{
-	if (!flag)
-		return (ft_itoa(va_arg(ap, int)));
-	if (flag == -1)
-		return (ft_itoa((short)va_arg(ap, int)));
-	if (flag == -2)
-		return (ft_itoa((signed char)va_arg(ap, int)));
-	if (flag == 1)
-		return (ft_itoa(va_arg(ap, long)));
-	if (flag == 2)
-		return (ft_itoa(va_arg(ap, long long)));
-	return (0);
-}
-
-static char		*ft_call_ufunc(va_list ap, int flag, int base)
-{
-	if (!flag)
-		return (ft_itoa_base(va_arg(ap, unsigned int), base));
-	if (flag == -1)
-		return (ft_itoa_base((unsigned short)va_arg(ap, int), base));
-	if (flag == -2)
-		return (ft_itoa_base((unsigned char)va_arg(ap, int), base));
-	if (flag == 1)
-		return (ft_itoa_base(va_arg(ap, unsigned long), base));
-	if (flag == 2)
-		return (ft_itoa_base(va_arg(ap, unsigned long long), base));
-	return (0);
-}
-
-char			*ft_int_conv(char ch, int flag, va_list ap)
+void				ft_hash_flag(char **str, int hex)
 {
 	char	*s;
 
-	if (ch == 'd' || ch == 'i')
-		return (ft_call_func(ap, flag));
-	if (ch == 'x' || ch == 'X')
+	if (ft_strlen(*str) == 1 && **str == '0')
+		return ;
+	if (!(s = ft_strnew(ft_strlen(*str) + (hex ? 2 : 1))))
+		return ;
+	ft_strcpy(s + (hex ? 2 : 1), *str);
+	*s = '0';
+	*(s + 1) = hex ? 'X' : *(s + 1);
+	ft_strdel(str);
+	*str = s;
+}
+
+void				ft_sign_flag(char **str, int sign)
+{
+	char	*s;
+
+	if (**str == '-')
+		return ;
+	if (!(s = ft_strnew(ft_strlen(*str) + 1)))
+		return ;
+	ft_strcpy(s + 1, *str);
+	*s = sign ? '+' : ' ';
+	ft_strdel(str);
+	*str = s;
+}
+
+
+static char			*ft_conv(int arr, int sign, int base, va_list ap)
+{
+	int		i;
+
+	i = 0b1000;
+	if (arr & i)
+		return (sign ? ft_itoa((long long)va_arg(ap, long long)) : \
+				ft_itoa_base((unsigned long long)va_arg(ap, \
+						unsigned long long), base));
+	if (arr & (i >> 1))
+		return (sign ? ft_itoa((long)va_arg(ap, long)) : \
+			ft_itoa_base((unsigned long)va_arg(ap, unsigned long), base));
+	if (arr & (i >> 2))
+		return (sign ? ft_itoa((char)va_arg(ap, int)) : \
+				ft_itoa_base((unsigned char)va_arg(ap, int), base));
+	if (arr & (i >> 3))
+		return (sign ? ft_itoa((short)va_arg(ap, int)) : \
+				ft_itoa_base((unsigned short)va_arg(ap, int), base));
+	return (sign ? ft_itoa((int)va_arg(ap, int)) : \
+			ft_itoa_base((unsigned int)va_arg(ap, unsigned int), base));
+}
+
+char				*ft_int_conv(char ch, int *arr, va_list ap)
+{
+	char	*tmp;
+
+	if ((ch == 'x' || ch == 'X' || ch == 'o'))
+		tmp = ft_conv(arr[0], 0, ch == 'o' ? 8 : 16, ap);
+	else
+		tmp = ft_conv(arr[0], ch == 'u' ? 0 : 1, 10, ap);
+	if (*tmp == '-')
 	{
-		s = ft_call_ufunc(ap, flag, 16);
-		if (ch == 'x')
-			ft_tolowercase(s);
-		return (s);
+		ft_delfront(&tmp);
+		ft_apply_precision(&tmp, arr[2], 0);
+		ft_addstr(&tmp, '-', 1);
 	}
-	if (ch == 'o')
-		return (ft_call_ufunc(ap, flag, 8));
-	if (ch == 'u')
-		return (ft_call_ufunc(ap, flag, 10));
-	return (0);
+	else
+		ft_apply_precision(&tmp, arr[2], 0);
+	if ((ch == 'o' || ch == 'x' || ch == 'X') && (*arr & 0b1000000000))
+		ft_hash_flag(&tmp, ch == 'o' ? 0 : 1);
+	else if ((ch == 'd' || ch == 'i') && ((*arr & 0b10000000) || \
+				(*arr & 0b10000000)))
+		ft_sign_flag(&tmp, *arr & 0b10000000 ? 1 : 0);
+	ch == 'x' ? ft_tolowercase(tmp) : (void)tmp;
+	return (tmp);
 }

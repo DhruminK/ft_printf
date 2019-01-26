@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parsor.c                                        :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 15:56:07 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/21 16:58:37 by dkhatri          ###   ########.fr       */
+/*   Created: 2019/01/26 15:23:46 by dkhatri           #+#    #+#             */
+/*   Updated: 2019/01/26 19:05:53 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-static int		ft_putstrwrapper(char *str)
+static int		ft_putstrwrapper(char **str)
 {
 	int		len;
 
-	len = ft_strlen(str);
-	ft_putstr(str);
+	if (!str || !*str)
+		return (0);
+	len = ft_strlen(*str);
+	ft_putstr(*str);
+	ft_strdel(str);
 	return (len);
 }
 
@@ -25,20 +28,14 @@ static int		ft_parse(char *str, va_list ap)
 {
 	int		len;
 	char	*tmp;
-	char	ch;
-	int		count;
 
 	len = 0;
 	while (*str)
 	{
 		if (*str == '%' && (str = str + 1))
 		{
-			if (!(tmp = ft_find_conv(&str, ap)))
-			{
-				ft_putchar(*(str++));
-				continue ;
-			}
-			len += ft_putstrwrapper(tmp);
+			if ((tmp = ft_conversion(&str, ap)))
+				len += ft_putstrwrapper(&tmp);
 		}
 		else if ((len = len + 1))
 			ft_putchar(*(str++));
@@ -46,17 +43,16 @@ static int		ft_parse(char *str, va_list ap)
 	return (len);
 }
 
-int				ft_printf(const char *val, ...)
+int				ft_printf(const char *str, ...)
 {
 	va_list		ap;
 	int			len;
-	char		*str;
+	char		*dup;
 
-	va_start(ap, val);
-	len = 0;
-	str = ft_strdup(val);
-	len = ft_parse(str, ap);
+	dup = ft_strdup(str);
+	va_start(ap, str);
+	len = ft_parse(dup, ap);
 	va_end(ap);
-	free(str);
+	free(dup);
 	return (len);
 }
