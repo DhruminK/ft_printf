@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:30:04 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/26 19:04:48 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 16:52:32 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void		ft_hash_flag(char **str, int hex);
 void		ft_sign_flag(char **str, int sign);
 char		*ft_itoa(long long num);
 char		*ft_itoa_base(unsigned long long num, int base);
+int			ft_flag_bin(char ch);
 
 #endif

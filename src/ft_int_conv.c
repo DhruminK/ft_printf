@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 17:17:47 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/26 18:58:34 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 19:56:28 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char			*ft_conv(int arr, int sign, int base, va_list ap)
 		return (sign ? ft_itoa((long)va_arg(ap, long)) : \
 			ft_itoa_base((unsigned long)va_arg(ap, unsigned long), base));
 	if (arr & (i >> 2))
-		return (sign ? ft_itoa((char)va_arg(ap, int)) : \
+		return (sign ? ft_itoa((signed char)va_arg(ap, int)) : \
 				ft_itoa_base((unsigned char)va_arg(ap, int), base));
 	if (arr & (i >> 3))
 		return (sign ? ft_itoa((short)va_arg(ap, int)) : \
@@ -68,6 +68,8 @@ char				*ft_int_conv(char ch, int *arr, va_list ap)
 {
 	char	*tmp;
 
+	if (arr[2] != -1)
+		*arr = *arr & (~ft_flag_bin('0'));
 	if ((ch == 'x' || ch == 'X' || ch == 'o'))
 		tmp = ft_conv(arr[0], 0, ch == 'o' ? 8 : 16, ap);
 	else
@@ -80,11 +82,12 @@ char				*ft_int_conv(char ch, int *arr, va_list ap)
 	}
 	else
 		ft_apply_precision(&tmp, arr[2], 0);
-	if ((ch == 'o' || ch == 'x' || ch == 'X') && (*arr & 0b1000000000))
+	if ((ch == 'o' || ch == 'x' || ch == 'X') && (*arr & ft_flag_bin('#')))
 		ft_hash_flag(&tmp, ch == 'o' ? 0 : 1);
-	else if ((ch == 'd' || ch == 'i') && ((*arr & 0b10000000) || \
-				(*arr & 0b10000000)))
-		ft_sign_flag(&tmp, *arr & 0b10000000 ? 1 : 0);
-	ch == 'x' ? ft_tolowercase(tmp) : (void)tmp;
+	else if ((ch == 'd' || ch == 'i') && ((*arr & ft_flag_bin('+')) || \
+				(*arr & ft_flag_bin(' '))))
+		ft_sign_flag(&tmp, *arr & ft_flag_bin('+') ? 1 : 0);
+	if (ch == 'x')
+		ft_tolowercase(tmp);
 	return (tmp);
 }

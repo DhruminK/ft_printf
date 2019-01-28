@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:38:48 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/23 15:47:49 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 19:40:02 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char			*ft_itoa(long long num)
 	if (!(str = ft_strnew(len)))
 		return (0);
 	str[len--] = 0;
+	if (num == 0 && (str[len] = '0'))
+		return (str);
 	ft_conv(str, num, 10, len);
 	str[0] = num < 0 ? '-' : str[0];
 	return (str);

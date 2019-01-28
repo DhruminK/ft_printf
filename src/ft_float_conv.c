@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 18:05:36 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/26 19:05:35 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 18:28:26 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char		*ft_float(double num, int precision)
 
 	str = ft_itoa((long)num);
 	num = num - (long)num;
+	if (precision)
+		ft_addstr(&str, '.', 0);
 	while (precision-- > 0)
 	{
 		num = num * 10;
@@ -54,10 +56,12 @@ char			*ft_float_conv(int *arr, va_list ap)
 	int		pre;
 
 	pre = arr[2] == -1 ? 6 : arr[2];
-	tmp = arr[0] & 0b10000 ? \
+	tmp = !(arr[0] & ft_flag_bin('L')) ? \
 		ft_float((double)va_arg(ap, double), pre) : \
 		ft_lfloat((long double)va_arg(ap, long double), pre);
-	if ((*arr & 0b100000000) || (*arr & 0b10000000))
-		ft_sign_flag(&tmp, *arr & 0b100000000 ? 1 : 0);
+	if ((*arr & ft_flag_bin('+')) || (*arr & ft_flag_bin(' ')))
+		ft_sign_flag(&tmp, *arr & ft_flag_bin('+') ? 1 : 0);
+	if ((*arr & ft_flag_bin('#')) && !arr[2])
+		ft_addstr(&tmp, '.', 0);
 	return (tmp);
 }
