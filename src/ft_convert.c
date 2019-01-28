@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 17:07:02 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/28 19:57:27 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:03:30 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static char		*ft_point_conv(int *arr, va_list ap)
 	ft_apply_precision(&tmp, arr[2], 0);
 	ft_hash_flag(&tmp, 1);
 	ft_tolowercase(tmp);
-
 	return (tmp);
 }
 
@@ -54,7 +53,6 @@ static char		*ft_string_conv(char ch, int *arr, va_list ap)
 	return (tmp);
 }
 
-
 static void		ft_handle_field_width(char **str, int *arr, char ch)
 {
 	char	*s;
@@ -71,7 +69,8 @@ static void		ft_handle_field_width(char **str, int *arr, char ch)
 	if ((*arr & ft_flag_bin('0')) && (ch == 'd' || ch == 'i' || ch == 'f') && \
 			((s = ft_strchr(*str, '-')) || \
 			(((*arr & ft_flag_bin('+')) || (*arr & ft_flag_bin(' '))) && \
-			((s = ft_strchr(*str, '+')) || (s = ft_strchr(*str, ' '))))) && *str != s)
+			((s = ft_strchr(*str, '+')) || \
+			(s = ft_strchr(*str, ' '))))) && *str != s)
 	{
 		**str = *s;
 		*s = '0';
@@ -95,7 +94,8 @@ char			*ft_convert(char ch, int *arr, va_list ap)
 	if (!arr[2] && tmp[ft_strlen(tmp) - 1] == '0')
 	{
 		ft_strdel(&tmp);
-		tmp = (*arr & ft_flag_bin('#')) && (ch == 'o') ? ft_strdup("0") : ft_strdup("");
+		tmp = (*arr & ft_flag_bin('#')) && (ch == 'o') ?  \
+			ft_strdup("0") : ft_strdup("");
 	}
 	ft_handle_field_width(&tmp, arr, ch);
 	return (tmp);

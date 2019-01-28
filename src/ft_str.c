@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 17:55:55 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/26 18:02:32 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:02:00 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		ft_delfront(char **str)
 	*str = s;
 }
 
-void	ft_addstr(char **str, char ch, int front)
+void		ft_addstr(char **str, char ch, int front)
 {
 	char	*tmp;
 	char	*dup;

@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 18:05:36 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/28 18:28:26 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:01:36 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char		*ft_lfloat(long double num, int precision)
 	char	ret;
 
 	str = ft_itoa((long long)num);
-	num = num - (long long) num;
+	num = num - (long long)num;
 	if (precision)
 		ft_addstr(&str, '.', 0);
 	while (precision-- > 0)

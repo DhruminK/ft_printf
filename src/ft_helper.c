@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 16:38:27 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/28 18:54:17 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:01:48 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void		ft_apply_field_width(char **str, int field, char neg)
 	len = ft_strlen(*str);
 	if (len >= field)
 		return ;
-	if (!(s = ft_strnew(field)) || !(i = -1))
+	if (!(s = ft_strnew(field)) || \
+			!(i = -1))
 		return ;
 	ft_strcpy(neg == '-' ? s : (s + field - len), *str);
 	tmp = s + (neg == '-' ? len : 0);

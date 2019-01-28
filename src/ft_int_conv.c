@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 17:17:47 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/28 19:56:28 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/28 20:04:21 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void				ft_sign_flag(char **str, int sign)
 	*str = s;
 }
 
-
 static char			*ft_conv(int arr, int sign, int base, va_list ap)
 {
 	int		i;
@@ -53,7 +52,7 @@ static char			*ft_conv(int arr, int sign, int base, va_list ap)
 						unsigned long long), base));
 	if (arr & (i >> 1))
 		return (sign ? ft_itoa((long)va_arg(ap, long)) : \
-			ft_itoa_base((unsigned long)va_arg(ap, unsigned long), base));
+				ft_itoa_base((unsigned long)va_arg(ap, unsigned long), base));
 	if (arr & (i >> 2))
 		return (sign ? ft_itoa((signed char)va_arg(ap, int)) : \
 				ft_itoa_base((unsigned char)va_arg(ap, int), base));
