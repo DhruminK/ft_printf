@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 15:31:57 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/28 19:58:40 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/29 19:10:50 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,26 @@ static int		ft_isvalid(char ch)
 {
 	if (ch == 'd' || ch == 'i' || ch == 'u' || \
 			ch == 'o' || ch == 'x' || ch == 'X' || ch == 's' || \
-			ch == 'c' || ch == 'p' || ch == 'f' || ch == '%')
+			ch == 'c' || ch == 'p' || ch == 'f' || ch == '%' || ch == 'D' || \
+			ch == 'U' || ch == 'F' || ch == 'O')
 		return (1);
 	if (ft_isdigit(ch) || ch == '.' || ch == '#' || ch == '+' || ch == ' ' || \
-			ch == '0' || ch == '-' || ch == 'L' || ch == 'l' || ch == 'h')
+			ch == '0' || ch == '-' || ch == 'L' || ch == 'l' || ch == 'h' || \
+			ch == 'z' || ch == 'j')
 		return (0);
 	return (-1);
 }
 
 static void		ft_flag(char ch, int *flag)
 {
-	if (ch != 'l' || ch != 'h')
+	if (ch != 'l' && ch != 'h' && ch != 'z' && ch != 'j')
 		*flag = *flag | ft_flag_bin(ch);
 	else if (ch == 'h' && !(*flag & ft_flag_bin(2)))
 		*flag = *flag + ft_flag_bin(ch);
 	else if (ch == 'l' && !(*flag & ft_flag_bin(1)))
 		*flag = *flag + ft_flag_bin(ch);
+	else if (ch == 'z' || ch == 'j')
+		*flag = *flag + ft_flag_bin(1);
 }
 
 static char		*ft_find_flag(char *str, int *arr)
@@ -54,7 +58,7 @@ static char		*ft_find_flag(char *str, int *arr)
 		i = i + 1;
 	}
 	if (ret == -1)
-		arr[0] = -2;
+		arr[2] = -2;
 	else
 		(arr)[2] = i != 0 && str[i - 1] == '.' ? 0 : (arr)[2];
 	return (str + i);
@@ -71,10 +75,11 @@ char			*ft_conversion(char **str, va_list ap)
 	arr[1] = 0;
 	arr[2] = -1;
 	end = ft_find_flag(*str, arr);
-	*str = end + (*arr == -2 ? 0 : 1);
-	if (*arr == -2)
-		return (0);
-	tmp = ft_convert(*end, arr, ap);
+	*str = end + 1;
+	if ((*end == 'D' || *end == 'O' || *end == 'U') && \
+			(*end = *end - 'A' + 'a'))
+		arr[0] = arr[0] | ft_flag_bin('l');
+	tmp = ft_convert(end, arr, ap);
 	free(arr);
 	return (tmp);
 }

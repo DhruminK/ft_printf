@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 17:17:47 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/28 20:04:21 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/29 19:10:18 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,17 @@ void				ft_sign_flag(char **str, int sign)
 
 static char			*ft_conv(int arr, int sign, int base, va_list ap)
 {
-	int		i;
-
-	i = 0b1000;
-	if (arr & i)
+	if (arr & ft_flag_bin(1))
 		return (sign ? ft_itoa((long long)va_arg(ap, long long)) : \
 				ft_itoa_base((unsigned long long)va_arg(ap, \
 						unsigned long long), base));
-	if (arr & (i >> 1))
+	if (arr & ft_flag_bin('l'))
 		return (sign ? ft_itoa((long)va_arg(ap, long)) : \
 				ft_itoa_base((unsigned long)va_arg(ap, unsigned long), base));
-	if (arr & (i >> 2))
+	if (arr & ft_flag_bin(2))
 		return (sign ? ft_itoa((signed char)va_arg(ap, int)) : \
 				ft_itoa_base((unsigned char)va_arg(ap, int), base));
-	if (arr & (i >> 3))
+	if (arr & ft_flag_bin('h'))
 		return (sign ? ft_itoa((short)va_arg(ap, int)) : \
 				ft_itoa_base((unsigned short)va_arg(ap, int), base));
 	return (sign ? ft_itoa((int)va_arg(ap, int)) : \
@@ -69,10 +66,10 @@ char				*ft_int_conv(char ch, int *arr, va_list ap)
 
 	if (arr[2] != -1)
 		*arr = *arr & (~ft_flag_bin('0'));
-	if ((ch == 'x' || ch == 'X' || ch == 'o'))
-		tmp = ft_conv(arr[0], 0, ch == 'o' ? 8 : 16, ap);
+	if ((ch == 'x' || ch == 'X' || ch == 'o' || ch == 'O'))
+		tmp = ft_conv(arr[0], 0, ch == 'o' || ch == 'O' ? 8 : 16, ap);
 	else
-		tmp = ft_conv(arr[0], ch == 'u' ? 0 : 1, 10, ap);
+		tmp = ft_conv(arr[0], ch == 'u' || ch == 'U' ? 0 : 1, 10, ap);
 	if (*tmp == '-')
 	{
 		ft_delfront(&tmp);

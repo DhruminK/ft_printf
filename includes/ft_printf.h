@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:30:04 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/28 16:52:32 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/29 18:43:15 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char		*ft_conversion(char **str, va_list ap);
 /*
 ** Function to convert the input to character array
 */
-char		*ft_convert(char ch, int *arr, va_list ap);
+char		*ft_convert(char *ch, int *arr, va_list ap);
 
 /*
 ** Function to perform conversion from int to character array

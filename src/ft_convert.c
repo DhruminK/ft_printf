@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 17:07:02 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/28 20:03:30 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/29 19:07:52 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,32 @@ static char		*ft_point_conv(int *arr, va_list ap)
 	void	*p;
 	long	num;
 	char	*tmp;
+	char	*s;
 
 	p = (void*)va_arg(ap, void*);
 	num = (long)p - 0;
 	tmp = ft_itoa_base(num, 16);
 	*arr = *arr | ft_flag_bin('#');
 	ft_apply_precision(&tmp, arr[2], 0);
-	ft_hash_flag(&tmp, 1);
+	if (!(s = ft_strnew(ft_strlen(tmp) + 2)))
+		return (tmp);
+	ft_strcpy(s + 2, tmp);
+	*s = '0';
+	*(s + 1) = 'X';
+	ft_strdel(&tmp);
+	tmp = s;
 	ft_tolowercase(tmp);
 	return (tmp);
 }
 
-static char		*ft_string_conv(char ch, int *arr, va_list ap)
+static char		*ft_string_conv(char *ch, int *arr, va_list ap)
 {
 	char	*tmp;
 	char	*val;
 	char	c;
 
 	tmp = 0;
-	if (ch == 's')
+	if (*ch == 's')
 	{
 		val = va_arg(ap, char*);
 		if (!val)
@@ -45,9 +52,12 @@ static char		*ft_string_conv(char ch, int *arr, va_list ap)
 	}
 	else
 	{
-		c = ch == 'c' ? va_arg(ap, int) : '%';
-		if (!c && (c = '^@'))
+		c = *ch == 'c' ? va_arg(ap, int) : '%';
+		if (!c && (*ch = '\''))
+		{
+			arr[1] = arr[1] == -1 ? arr[1] : arr[1] - 1;
 			return (ft_strdup(""));
+		}
 		ft_addstr(&tmp, c, 0);
 	}
 	return (tmp);
@@ -77,19 +87,23 @@ static void		ft_handle_field_width(char **str, int *arr, char ch)
 	}
 }
 
-char			*ft_convert(char ch, int *arr, va_list ap)
+char			*ft_convert(char *c, int *arr, va_list ap)
 {
 	char	*tmp;
+	char	ch;
 
 	tmp = 0;
-	if (ch == 's' || ch == 'c' || ch == '%')
-		tmp = ft_string_conv(ch, arr, ap);
-	if (ch == 'd' || ch == 'i' || ch == 'o' || ch == 'u' || \
-			ch == 'x' || ch == 'X')
+	ch = *c;
+	if (arr[2] == -2)
+		ft_addstr(&tmp, ch, 0);
+	else if (ch == 's' || ch == 'c' || ch == '%')
+		tmp = ft_string_conv(c, arr, ap);
+	else if (ch == 'd' || ch == 'i' || ch == 'o' || ch == 'u' || ch == 'x' \
+			|| ch == 'X' || ch == 'O' || ch == 'D' || ch == 'U')
 		tmp = ft_int_conv(ch, arr, ap);
-	if (ch == 'f')
+	else if (ch == 'f' || ch == 'F')
 		tmp = ft_float_conv(arr, ap);
-	if (ch == 'p')
+	else if (ch == 'p')
 		tmp = ft_point_conv(arr, ap);
 	if (!arr[2] && tmp[ft_strlen(tmp) - 1] == '0')
 	{
