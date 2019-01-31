@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:30:04 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/29 18:43:15 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:47:34 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void		ft_sign_flag(char **str, int sign);
 char		*ft_itoa(long long num);
 char		*ft_itoa_base(unsigned long long num, int base);
 int			ft_flag_bin(char ch);
+int			ft_max(int num1, int num2);
 
 #endif

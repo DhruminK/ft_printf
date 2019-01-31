@@ -6,7 +6,7 @@
 #    By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/15 14:25:44 by dkhatri           #+#    #+#              #
-#    Updated: 2019/01/26 18:54:19 by dkhatri          ###   ########.fr        #
+#    Updated: 2019/01/31 18:08:42 by dkhatri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libftprintf.a
 
 MAIN = main.c
 
-FLAGS = 
+FLAGS = -Wall -Wextra -Werror
 
 LIBFTDIR = ./libft/
 

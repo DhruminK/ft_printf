@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 15:31:57 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/29 19:10:50 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:59:32 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void		ft_flag(char ch, int *flag)
 	else if (ch == 'l' && !(*flag & ft_flag_bin(1)))
 		*flag = *flag + ft_flag_bin(ch);
 	else if (ch == 'z' || ch == 'j')
-		*flag = *flag + ft_flag_bin(1);
+		*flag = *flag | ft_flag_bin(1);
 }
 
 static char		*ft_find_flag(char *str, int *arr)
@@ -52,7 +52,7 @@ static char		*ft_find_flag(char *str, int *arr)
 			ft_flag(str[i], arr);
 		if (ft_isdigit(str[i]) && (i == 0 || \
 					(!ft_isdigit(str[i - 1]) && str[i - 1] != '.')))
-			(arr)[1] = ft_atoi(str + i);
+			(arr)[1] = ft_max(arr[1], ft_atoi(str + i));
 		if (i != 0 && str[i - 1] == '.')
 			(arr)[2] = ft_atoi(str + i);
 		i = i + 1;
@@ -75,7 +75,7 @@ char			*ft_conversion(char **str, va_list ap)
 	arr[1] = 0;
 	arr[2] = -1;
 	end = ft_find_flag(*str, arr);
-	*str = end + 1;
+	*str = end + (!*end ? 0 : 1);
 	if ((*end == 'D' || *end == 'O' || *end == 'U') && \
 			(*end = *end - 'A' + 'a'))
 		arr[0] = arr[0] | ft_flag_bin('l');

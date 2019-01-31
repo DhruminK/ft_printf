@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 16:38:27 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/29 19:05:06 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:47:16 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void		ft_tolowercase(char *str)
 			*str = *str - 'A' + 'a';
 		str = str + 1;
 	}
+}
+
+int			ft_max(int num1, int num2)
+{
+	return (num1 > num2 ? num1 : num2);
 }
 
 int			ft_flag_bin(char ch)

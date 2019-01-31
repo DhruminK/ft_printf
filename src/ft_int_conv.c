@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 17:17:47 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/29 19:10:18 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:20:45 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,27 @@ void				ft_sign_flag(char **str, int sign)
 
 static char			*ft_conv(int arr, int sign, int base, va_list ap)
 {
-	if (arr & ft_flag_bin(1))
-		return (sign ? ft_itoa((long long)va_arg(ap, long long)) : \
-				ft_itoa_base((unsigned long long)va_arg(ap, \
+	if (arr & ft_flag_bin(1) && sign)
+		return (ft_itoa((long long)va_arg(ap, long long)));
+	else if (arr & ft_flag_bin(1) && !sign)
+		return (ft_itoa_base((unsigned long long)va_arg(ap, \
 						unsigned long long), base));
-	if (arr & ft_flag_bin('l'))
-		return (sign ? ft_itoa((long)va_arg(ap, long)) : \
-				ft_itoa_base((unsigned long)va_arg(ap, unsigned long), base));
-	if (arr & ft_flag_bin(2))
-		return (sign ? ft_itoa((signed char)va_arg(ap, int)) : \
-				ft_itoa_base((unsigned char)va_arg(ap, int), base));
-	if (arr & ft_flag_bin('h'))
-		return (sign ? ft_itoa((short)va_arg(ap, int)) : \
-				ft_itoa_base((unsigned short)va_arg(ap, int), base));
-	return (sign ? ft_itoa((int)va_arg(ap, int)) : \
-			ft_itoa_base((unsigned int)va_arg(ap, unsigned int), base));
+	else if (arr & ft_flag_bin('l') && sign)
+		return (ft_itoa((long)va_arg(ap, long)));
+	else if (arr & ft_flag_bin('l') && !sign)
+		return (ft_itoa_base((unsigned long)va_arg(ap, unsigned long), base));
+	else if (arr & ft_flag_bin(2) && sign)
+		return (ft_itoa((signed char)va_arg(ap, int)));
+	else if (arr & ft_flag_bin(2) && !sign)
+		return (ft_itoa_base((unsigned char)va_arg(ap, int), base));
+	else if (arr & ft_flag_bin('h') && sign)
+		return (ft_itoa((short)va_arg(ap, int)));
+	else if (arr & ft_flag_bin('h') && !sign)
+		return (ft_itoa_base((unsigned short)va_arg(ap, int), base));
+	else if (sign)
+		return (ft_itoa(va_arg(ap, int)));
+	else
+		return (ft_itoa_base((unsigned int)va_arg(ap, unsigned int), base));
 }
 
 char				*ft_int_conv(char ch, int *arr, va_list ap)

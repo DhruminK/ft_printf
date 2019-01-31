@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 17:07:02 by dkhatri           #+#    #+#             */
-/*   Updated: 2019/01/29 19:07:52 by dkhatri          ###   ########.fr       */
+/*   Updated: 2019/01/31 17:33:32 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ static char		*ft_string_conv(char *ch, int *arr, va_list ap)
 		val = va_arg(ap, char*);
 		if (!val)
 			val = "(null)";
-		tmp = arr[2] == -1 ? ft_strdup(val) : \
-				!arr[2] ? ft_strdup("") : ft_strndup(val, arr[2]);
+		if (arr[2] == -1 || !arr[2])
+			tmp = arr[2] == -1 ? ft_strdup(val) : ft_strdup("");
+		tmp = (arr[2] && arr[2] != -1) ? ft_strndup(val, arr[2]) : tmp;
 	}
 	else
 	{
@@ -66,9 +67,11 @@ static char		*ft_string_conv(char *ch, int *arr, va_list ap)
 static void		ft_handle_field_width(char **str, int *arr, char ch)
 {
 	char	*s;
+	char	c;
 
-	ft_apply_field_width(str, arr[1], (*arr & ft_flag_bin('-') ? '-' : \
-			(*arr & ft_flag_bin('0')) ? '0' : 0));
+	c = *arr & ft_flag_bin('-') ? '-' : 0;
+	c = (!c) && (*arr & ft_flag_bin('0')) ? '0' : c;
+	ft_apply_field_width(str, arr[1], c);
 	if ((*arr & ft_flag_bin('0')) && (ch == 'x' || ch == 'X' || ch == 'p') && \
 			(*arr & ft_flag_bin('#')) && ((s = ft_strchr(*str, 'x')) || \
 					(s = ft_strchr(*str, 'X'))) && s != (*str) + 1)
@@ -105,11 +108,12 @@ char			*ft_convert(char *c, int *arr, va_list ap)
 		tmp = ft_float_conv(arr, ap);
 	else if (ch == 'p')
 		tmp = ft_point_conv(arr, ap);
-	if (!arr[2] && tmp[ft_strlen(tmp) - 1] == '0')
+	if (!arr[2] && tmp[ft_strlen(tmp) - 1] == '0' && \
+			!(ch == 'p' && (tmp = ft_strdup("0x"))))
 	{
 		ft_strdel(&tmp);
-		tmp = (*arr & ft_flag_bin('#')) && (ch == 'o') ?  \
-			ft_strdup("0") : ft_strdup("");
+		tmp = (ch == 'o' && (*arr & ft_flag_bin('#'))) ? \
+				ft_strdup("0") : ft_strdup("");
 	}
 	ft_handle_field_width(&tmp, arr, ch);
 	return (tmp);
